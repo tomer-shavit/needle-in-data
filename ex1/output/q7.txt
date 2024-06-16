@@ -1,0 +1,40 @@
+7.b
+For the columns:
+Year,Number of Participants,Ticket Price (in USD),Number of Stages,Number of Music Genres
+We will use Min-Max scaling which is:
+(value - min_value_of_column) / (max_value_of_column - min_value_of_column)
+This way every numerical value will be between 0 and 1 (even the year to prevent feature with large numbers)
+For Country we will create a column for each country, and give the value 1 if a festival in that country
+otherwise 0.
+For Description, we will create a column for each of the words:
+annual, music, festival, soul, jazz, belgium, hungary, israel, rock, dance,
+desert, electronic, and arts
+and populate it with the tf-idf value from the original description.
+
+7.c
+For the numerical values we will use Euclidean Distance since it is measure distance by a "straight line" in n
+dimensions.
+For the columns of the countries we can use Hamming Distance which checks in how many columns there is a difference
+between 2 rows.
+As for the columns that represent the text we can use Cosine Similarity which will effectively capture the
+similarity in the direction of the term frequency vectors derived from tf-idf.
+
+### Sanity Check
+
+For Euclidean Distance:
+- Close values: (100, 200) and (110, 210)
+  - Distance: sqrt((110-100)^2 + (210-200)^2) = sqrt(10^2 + 10^2) = sqrt(200) ≈ 14.14
+- Far values: (100, 200) and (300, 400)
+  - Distance: sqrt((300-100)^2 + (400-200)^2) = sqrt(200^2 + 200^2) = sqrt(80000) ≈ 282.84
+
+For Hamming Distance:
+- Close values: "USA" and "USA"
+  - Distance: 0
+- Far values: "USA" and "UK"
+  - Distance: 2 (differ in 2 positions)
+
+For Cosine Similarity (higher similarity -> lower distance):
+- Close values: Vectors (1, 0, 1) and (1, 0, 1)
+  - Similarity: 1 (distance: 0)
+- Far values: Vectors (1, 0, 1) and (0, 1, 0)
+  - Similarity: 0 (distance: 1)
